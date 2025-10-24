@@ -2,7 +2,6 @@ import logging
 import os
 import sys
 import time
-import asyncio
 def checking_calculator():
     while True:
         print("enter the first operand (введите первый операнд)")
@@ -38,6 +37,8 @@ def checking_calculator():
                 print(f"This is the right decision. = {user_result} \n {"-" * 50}")
             else:
                 print(f"This is the wrong decision. result = {result} \n {"-" * 50}")
+
+# сделать решение дробей у которых числитель больше знаменателя у (-),(/),(*) !!!!!!!
 
 integer1 = None
 integer2 = None
@@ -116,7 +117,7 @@ def input_fraction_calculator():
 
 
 
-def fraction_calculator_plus():  # сделать сокращение решения !!!!!!
+def fraction_calculator_plus():
     global integer1
     global integer2
 
@@ -137,7 +138,6 @@ def fraction_calculator_plus():  # сделать сокращение реше�
                 result_integer += 1
             if result_numerator == 0:
                 result_denominator  = 0
-            reduce_fractional(result_numerator,result_denominator)
             print_fraction_calculator(result_numerator,result_integer,result_denominator)
 
 
@@ -165,7 +165,7 @@ def fraction_calculator_plus():  # сделать сокращение реше�
         print("the end")
 
 
-def fraction_calculator_minus():# бывает решает не правильно (надо исправит) !!!!!!
+def fraction_calculator_minus():# бывает решает не правильно (надо исправить) !!!!!!
     global integer1
     global integer2
 
@@ -259,31 +259,24 @@ def fraction_calculator_divide(): # сыровато!!!!!!!!!!
 
         print("the end")
 
-def reduce_fractional(numerator, denominator):
-    test_remains = numerator % denominator
-    if test_remains == 0:
-        print(denominator)
-    elif test_remains != 0:
-        for a in range(2, 1000):
-            test_remains = numerator % a
-            if test_remains == 0:
-                return a
-    else:
-        print("не сокращаеться !!!!!")
-
 def print_fraction_calculator(result_numerator,result_integer,result_denominator):
-
+    print("="*40)
 
     print(f"""              числитель:{result_numerator}
     целое число дроби:{result_integer} {"-" * 5}
                 знаменатель:{result_denominator}""")
 
-# функция которая сокращает дробь
+    try:
+        reduce_fractional(result_numerator, result_denominator)
+    except ZeroDivisionError:
+        print("не удалось сократить дробь")
 
-def reduce_fractional(numerator, denominator):
+def reduce_fractional(numerator, denominator):# функция которая сокращает дробь
+    print("\n")
     result_num1 = 0
     result_num2 = 0
     test_remains = numerator % denominator
+
 
     if test_remains == 0:
         result_num1 = denominator
@@ -319,6 +312,15 @@ def reduce_fractional(numerator, denominator):
     else:
         print('Не возможно сократить дробь')
 
+def incorrect_fraction_in_correct_fraction(numerator: int,integer: int,denominator: int):
+    result_numerator = 0
+    result_integer = 0
+    while numerator >= denominator:
+        result_numerator = numerator - denominator
+        numerator -= denominator
+        result_integer = integer + 1
+        integer += 1
+    print(result_numerator, result_integer)
 
 def main():
     input_fraction_calculator()
